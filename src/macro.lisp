@@ -1,4 +1,4 @@
-(in-package dithcord-cli)
+(in-package dithcord-tui)
 
 (defmacro while (cond &body body)
   `(loop while ,cond

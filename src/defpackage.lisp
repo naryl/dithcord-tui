@@ -1,5 +1,5 @@
 
-(defpackage :dithcord-cli
+(defpackage :dithcord-tui
   (:use :common-lisp)
   (:export :start))
 

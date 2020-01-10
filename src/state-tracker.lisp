@@ -1,5 +1,5 @@
 
-(in-package dithcord-cli)
+(in-package dithcord-tui)
 
 #.dithcord::declaim-optimize
 
