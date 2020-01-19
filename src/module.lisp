@@ -8,8 +8,9 @@
 (dithcord:define-handler tui :on-message-create (msg)
   (let ((sender (lc:author msg)))
     (let ((text (lispcord:render-msg msg))
-          (timestamp (timestamp-time (lc:timestamp msg)))
-          (sender-name (lc:name sender)))
+          (sender-name (lc:nick-or-name sender msg)))
+      (when (> (length sender-name) 20)
+        (setf sender-name (format nil "~A..." (subseq sender-name 0 17))))
       (cl-tui:append-line 'chat "~20@A | ~A~%" sender-name text)
       (cl-tui:refresh))))
 
