@@ -2,10 +2,11 @@
 (in-package dithcord-tui)
 
 (cl-tui:define-frame top (cl-tui:container-frame :split-type :horizontal) :on :root)
-(cl-tui:define-frame channels (cl-tui:callback-frame :render 'render-channels) :on top :w 20)
-(cl-tui:define-frame chat (cl-tui:log-frame) :on top)
-(cl-tui:define-frame users (cl-tui:callback-frame :render 'render-users) :on top :w 25)
 (cl-tui:define-frame input (cl-tui:edit-frame :prompt "> ") :on :root :h 1)
+
+(cl-tui:define-frame channels (cl-tui:callback-frame :render 'render-channels) :on top :w 15)
+(cl-tui:define-frame chat (cl-tui:log-frame) :on top)
+(cl-tui:define-frame users (cl-tui:callback-frame :render 'render-users) :on top :w 15)
 
 (defun render-channels (&key frame)
   nil)
