@@ -1,5 +1,5 @@
 
-(in-package dithcord-cli)
+(in-package dithcord-tui)
 
 ;;;; Tokens
 
@@ -34,11 +34,9 @@
                (get-new-token)))
         (t (get-new-token)))))
 
-;;;; CLI
-
 (defun start ()
   (ubiquitous:restore 'config)
-  (setf (dithcord:token 'dithcord-cli) (get-token))
-  (dithcord:start-bot 'dithcord-cli)
-  (read-line)
+  (setf (dithcord:token 'dithcord-tui) (get-token))
+  (dithcord:start-bot 'dithcord-tui)
+  (run-ui)
   (dithcord:stop-bot))

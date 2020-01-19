@@ -1,8 +1,7 @@
 
 (in-package dithcord-tui)
 
-(lispcord:set-log-level :error)
-(setf (v:repl-level) :error)
+(setf (v:repl-categories) nil)
 
 (dithcord:define-bot dithcord-tui (tui)
   :selfbot t)
