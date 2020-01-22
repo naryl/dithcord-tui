@@ -1,6 +1,15 @@
 
 (in-package dithcord-tui)
 
+(v:define-pipe ()
+  (v:level-filter :level :debug)
+  (v:rotating-file-faucet :template "debug.log"))
+
+(setf (v:repl-categories) nil)
+
+(dithcord:define-bot dithcord-tui (tui)
+  :selfbot t)
+
 ;;;; Tokens
 
 (defun get-new-token ()

@@ -11,7 +11,6 @@
                (:file "macro")
                (:file "settings")
                (:file "module")
-               (:file "bot")
                (:file "tui")
                (:file "main")
                ))
