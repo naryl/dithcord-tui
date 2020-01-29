@@ -6,9 +6,9 @@
   (input (cl-tui:edit-frame :prompt "> ") :h 1))
 
 (cl-tui:define-children top ()
-  (channels (cl-tui:callback-frame :render 'render-channels) :w 15)
+  (channels (cl-tui:simple-frame :render 'render-channels) :w 15)
   (chat (cl-tui:log-frame))
-  (users (cl-tui:callback-frame :render 'render-users) :w 15))
+  (users (cl-tui:simple-frame :render 'render-users) :w 15))
 
 (defun render-channels (&key frame)
   nil)

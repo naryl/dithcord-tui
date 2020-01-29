@@ -47,5 +47,6 @@
   (ubiquitous:restore 'config)
   (setf (dithcord:token 'dithcord-tui) (get-token))
   (dithcord:start-bot 'dithcord-tui)
-  (run-ui)
-  (dithcord:stop-bot))
+  (unwind-protect
+       (run-ui)
+    (dithcord:stop-bot)))
