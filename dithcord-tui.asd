@@ -1,7 +1,7 @@
 
 (defsystem dithcord-tui
   :depends-on (:alexandria ; General utilities
-               :cl-containers :verbose :ubiquitous ; Utilities
+               :cl-containers :verbose :ubiquitous :trivial-types ; Utilities
                :cl-tui ; UI
                :dithcord :lispcord ; Discord
                )
@@ -11,6 +11,7 @@
                (:file "macro")
                (:file "settings")
                (:file "module")
+               (:file "tui-commands")
                (:file "tui")
                (:file "main")
                ))
