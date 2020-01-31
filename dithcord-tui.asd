@@ -11,7 +11,7 @@
                (:file "macro")
                (:file "settings")
                (:file "module")
-               (:file "tui-commands")
                (:file "tui")
+               (:file "tui-commands")
                (:file "main")
                ))

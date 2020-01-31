@@ -5,24 +5,28 @@
 
 (dc:define-handler tui :on-ready (payload)
   (declare (ignore payload))
-  (setf *guild* (first (dc:guilds)))
-  (setf *channel* (elt (dc:channels *guild*) 0))
+  (cl-tui:append-line 'chat "*** Connected! Guilds: ~A" (length (dc:guilds)))
+  (unless (and (current-guild-id) (current-guild))
+    (setf (current-guild) (first (dc:guilds))))
+  (unless (and (current-channel-id) (current-channel))
+    (setf (current-channel) (elt (dc:channels (current-guild) :type 'lc:text-channel) 0)))
   (cl-tui:refresh))
 
 (dc:define-handler tui :on-message-create (msg)
-  (when (eq (lc:channel msg) *channel*)
-    (let ((sender (lc:author msg)))
-      (let ((text (lispcord:render-msg msg))
-            (sender-name (lc:nick-or-name sender msg)))
-        (when (> (length sender-name) 20)
-          (setf sender-name (format nil "~A..." (subseq sender-name 0 17))))
-        (cl-tui:append-line 'chat "~20@A | ~A~%" sender-name text)
-        (cl-tui:refresh)))))
+  (when (eq (lc:channel msg) (current-channel))
+    (put-message msg)))
 
 ;;; MISC
 
-(defvar *guild* nil)
-(defvar *channel* nil)
+(defun current-guild ()
+  (lc::getcache-id (current-guild-id) :guild))
+(defun current-channel ()
+  (lc::getcache-id (current-channel-id) :channel))
+
+(defun (setf current-guild) (g)
+  (setf (current-guild-id) (lc:id g)))
+(defun (setf current-channel) (c)
+  (setf (current-channel-id) (lc:id c)))
 
 (defun timestamp-time (timestamp)
   (let* ((time+tz (elt (split-sequence:split-sequence #\T timestamp) 1))
