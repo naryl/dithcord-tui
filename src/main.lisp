@@ -19,4 +19,6 @@
     (setf (dc:token 'dithcord-tui) (user-token)))
   (setf (dc:selfbot 'dithcord-tui) (string/= (user-email) "Bot"))
   (run-ui)
+  ;; It will do nothing if it wasn't started
+  (dc:stop-bot)
   (uiop:quit))

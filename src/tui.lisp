@@ -96,5 +96,5 @@
     (loop
        (cl-tui:refresh)
        (handle-input)
-       (unless *running*
+       (unless (runningp)
          (return)))))
