@@ -17,5 +17,6 @@
   (ubiquitous:restore 'config)
   (when (user-token)
     (setf (dc:token 'dithcord-tui) (user-token)))
+  (setf (dc:selfbot 'dithcord-tui) (string/= (user-email) "Bot"))
   (run-ui)
   (uiop:quit))

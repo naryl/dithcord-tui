@@ -6,10 +6,15 @@
 (dc:define-handler tui :on-ready (payload)
   (declare (ignore payload))
   (cl-tui:append-line 'chat "*** Connected! Guilds: ~A" (length (dc:guilds)))
-  (unless (and (current-guild-id) (current-guild))
-    (setf (current-guild) (first (dc:guilds))))
-  (unless (and (current-channel-id) (current-channel))
-    (setf (current-channel) (elt (dc:channels (current-guild) :type 'lc:text-channel) 0)))
+  (unless (zerop (length (dc:guilds)))
+    (initialize-guild))
+  (cl-tui:refresh))
+
+(dc:define-handler tui :on-guild-create (guild)
+  (declare (ignore guild))
+  ;; Got our first guild
+  (when (= 1 (length (dc:guilds)))
+    (initialize-guild))
   (cl-tui:refresh))
 
 (dc:define-handler tui :on-message-create (msg)
@@ -17,6 +22,13 @@
     (put-message msg)))
 
 ;;; MISC
+
+(defun initialize-guild ()
+  (unless (and (current-guild-id) (current-guild))
+    (setf (current-guild) (first (dc:guilds))))
+  (alexandria:when-let ((channels (dc:channels (current-guild) :type 'lc:text-channel)))
+    (unless (and (current-channel-id) (current-channel))
+      (setf (current-channel) (elt channels 0)))))
 
 (defun current-guild ()
   (lc::getcache-id (current-guild-id) :guild))

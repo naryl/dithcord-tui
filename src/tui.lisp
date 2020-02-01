@@ -16,15 +16,19 @@
   (chat (cl-tui:log-frame))
   (users (cl-tui:simple-frame :render 'render-users) :w 15))
 
-(defun render-channels (&key frame h)
+(defun render-channels (&key frame h w)
   (when (and (connectedp) (current-guild) (current-channel) (dc:me))
     (let ((channels (dc:channels (current-guild) :type 'lc:text-channel)))
       (loop for channel in channels
-         for line from 0 below h
+         for line from 0 below (1- h)
          do (if (eq channel (current-channel))
                 (cl-tui:with-attributes (:reverse) frame
                   (cl-tui:put-text frame line 0 (lc:name channel)))
-                (cl-tui:put-text frame line 0 (lc:name channel)))))))
+                (cl-tui:put-text frame line 0 (lc:name channel))))))
+  (loop for y from 0 below (1- h)
+     do (cl-tui:put-char frame y 14 #\|))
+  (loop for x from 0 below (1- w)
+       do (cl-tui:put-char frame (1- h) x #\-)))
 
 (defun render-users (&key frame)
   nil)
@@ -57,7 +61,9 @@
       (setf (current-channel) (nth channel-pos channels))
       ;; Update the text on the chat panel
       (cl-tui:clear 'chat)
-      (map nil 'put-message (dc:get-messages (current-channel) :limit 20)))))
+      (handler-case
+          (map nil 'put-message (reverse (dc:get-messages (current-channel) :limit 50)))
+        (error () (switch-channel num))))))
 
 (defun put-message (msg)
   (let ((sender (lc:author msg)))
@@ -74,6 +80,8 @@
       (#\Newline (finish-input))
       (#\So (switch-channel 1))
       (#\Dle (switch-channel -1))
+      (:key-up (cl-tui:scroll-log 'chat 1))
+      (:key-down (cl-tui:scroll-log 'chat -1))
       (t (cl-tui:handle-key 'input key)))))
 
 (defun init-ui ()

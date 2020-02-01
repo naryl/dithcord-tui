@@ -38,7 +38,7 @@
 (define-command connect ()
   (if (user-token)
       (dithcord:start-bot 'dithcord-tui)
-      (cl-tui:append-line 'chat "*** Not authenticated. Please, user /auth <username> <password>")))
+      (cl-tui:append-line 'chat "*** Not authenticated. Please, user /auth <email> <password>")))
 
 (define-command disconnect ()
   (dithcord:stop-bot))
@@ -47,13 +47,23 @@
   (handler-bind ((dithcord:invalid-login-data
                   (lambda (e)
                     (cl-tui:append-line 'chat "*** Login error: ~A~%" (dithcord:message e)))))
+    (setf (user-email) username)
     (setf (user-token) (dithcord:get-user-token username password))
-    (setf (dc:token 'dithcord-tui) (user-token))))
+    (setf (dc:token 'dithcord-tui) (user-token))
+    (setf (dc:selfbot 'dithcord-tui) nil)))
+
+(define-command auth-bot (token)
+  (setf (user-email) "Bot")
+  (setf (user-token) token)
+  (setf (dc:token 'dithcord-tui) (format nil "Bot ~A" (user-token)))
+  (setf (dc:selfbot 'dithcord-tui) t))
 
 (define-command show-auth ()
   (if (and (user-email) (user-token))
-      (cl-tui:append-line 'chat "Email: ~A; Token: ~A" (user-email) (user-token))
-      (cl-tui:append-line 'chat "Not authenticated. Use /auth <username> <password>")))
+      (if (string= (user-email) "Bot")
+          (cl-tui:append-line 'chat "Bot; Token: ~A" (user-token))
+          (cl-tui:append-line 'chat "Email: ~A; Token: ~A" (user-email) (user-token)))
+      (cl-tui:append-line 'chat "Not authenticated. Use /auth <email> <password> or /auth-bot <token>")))
 
 (define-command quit ()
   (stop-dithcord))
