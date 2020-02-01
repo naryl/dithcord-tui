@@ -62,8 +62,11 @@
       ;; Update the text on the chat panel
       (cl-tui:clear 'chat)
       (handler-case
-          (map nil 'put-message (reverse (dc:get-messages (current-channel) :limit 50)))
+          (fetch-messages)
         (error () (switch-channel num))))))
+
+(defun fetch-messages ()
+  (map nil 'put-message (reverse (dc:get-messages (current-channel) :limit 50))))
 
 (defun put-message (msg)
   (let ((sender (lc:author msg)))

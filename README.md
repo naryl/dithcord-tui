@@ -9,8 +9,8 @@ What's this?
 Heavily WIP, but will eventually become an ncurses Discord client able to use
 either bot or user account.
 
-Currently dumps all messages you receive on all channels and all servers on
-screen. Tested only on Linux+SBCL.
+Currently allows reading text channels. Should work on Linux/Windows and
+SBCL/CCL/ECL. Tested only on Linux+SBCL.
 
 Is it a self-bot?
 -----------------

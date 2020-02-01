@@ -32,8 +32,7 @@
 (define-command g (id)
   (let ((id (parse-integer id :junk-allowed t)))
     (setf (current-guild) (lc::getcache-id id :guild))
-    (setf (current-channel) (elt (dc:channels (current-guild) :type 'lc:text-channel) 0))
-    ))
+    (initialize-guild)))
 
 (define-command connect ()
   (if (user-token)
