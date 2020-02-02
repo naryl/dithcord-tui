@@ -15,24 +15,26 @@
       (apply func (rest tokens)))))
 
 (define-command lc ()
-  (let ((channels (dc:channels (current-guild) :type 'lc:text-channel)))
+  (let ((channels (dcm:channels (dcm:current-guild) :type 'lc:text-channel)))
     (cl-tui:append-line 'chat "Channels:")
     (dc:mapf channels (c)
       (cl-tui:append-line 'chat "~A: ~A" (lc:id c) (lc:name c)))))
 
 (define-command lg ()
   (cl-tui:append-line 'chat "Guilds:")
-  (dc:mapf (dc:guilds) (g)
+  (dc:mapf (dcm:guilds) (g)
     (cl-tui:append-line 'chat "~A: ~A" (lc:id g) (lc:name g))))
 
 (define-command c (id)
   (let ((id (parse-integer id :junk-allowed t)))
-    (setf (current-channel) (lc::getcache-id id :channel))))
+    (setf (dcm:current-channel) (lc::getcache-id id :channel))
+    (fetch-messages)))
 
 (define-command g (id)
   (let ((id (parse-integer id :junk-allowed t)))
-    (setf (current-guild) (lc::getcache-id id :guild))
-    (initialize-guild)))
+    (setf (dcm:current-guild) (lc::getcache-id id :guild))
+    (dcm:initialize-guild)
+    (fetch-messages)))
 
 (define-command connect ()
   (if (user-token)

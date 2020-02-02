@@ -8,10 +8,9 @@
   :pathname "src/"
   :serial t
   :components ((:file "defpackage")
-               (:file "macro")
-               (:file "settings")
-               (:file "module")
+               (:file "util")
                (:file "tui")
                (:file "tui-commands")
+               (:file "module")
                (:file "main")
                ))

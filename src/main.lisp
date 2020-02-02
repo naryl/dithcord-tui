@@ -14,7 +14,7 @@
   (not (null dc:*client*)))
 
 (defun start ()
-  (ubiquitous:restore 'config)
+  (ubiquitous:restore :dithcord-tui)
   (when (user-token)
     (setf (dc:token 'dithcord-tui) (user-token)))
   (setf (dc:selfbot 'dithcord-tui) (string/= (user-email) "Bot"))

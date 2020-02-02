@@ -17,11 +17,11 @@
   (users (cl-tui:simple-frame :render 'render-users) :w 15))
 
 (defun render-channels (&key frame h w)
-  (when (and (connectedp) (current-guild) (current-channel) (dc:me))
-    (let ((channels (dc:channels (current-guild) :type 'lc:text-channel)))
+  (when (and (connectedp) (dcm:current-guild) (dcm:current-channel) (dc:me))
+    (let ((channels (dcm:channels (dcm:current-guild) :type 'lc:text-channel)))
       (loop for channel in channels
          for line from 0 below (1- h)
-         do (if (eq channel (current-channel))
+         do (if (eq channel (dcm:current-channel))
                 (cl-tui:with-attributes (:reverse) frame
                   (cl-tui:put-text frame line 0 (lc:name channel)))
                 (cl-tui:put-text frame line 0 (lc:name channel))))))
@@ -34,8 +34,8 @@
   nil)
 
 (defun render-prompt ()
-  (if (and (connectedp) (current-guild) (current-channel))
-      (format nil "~A #~A > " (lc:name (current-guild)) (lc:name (current-channel)))
+  (if (and (connectedp) (dcm:current-guild) (dcm:current-channel))
+      (format nil "~A #~A > " (lc:name (dcm:current-guild)) (lc:name (dcm:current-channel)))
       (format nil "NOT CONNECTED > ")))
 
 (defun finish-input ()
@@ -47,26 +47,9 @@
             (send-message text)))))
   (cl-tui:clear-text 'input))
 
-(defun send-message (text)
-  nil)
-
-(defun switch-channel (num)
-  (let ((channels (dc:channels (current-guild) :type 'lc:text-channel)))
-    (let ((channel-pos (position (current-channel) channels)))
-      ;; Get the new channel in
-      (unless channel-pos
-        (setf channel-pos -1))
-      (incf channel-pos num)
-      (setf channel-pos (alexandria:clamp channel-pos 0 (length channels)))
-      (setf (current-channel) (nth channel-pos channels))
-      ;; Update the text on the chat panel
-      (cl-tui:clear 'chat)
-      (handler-case
-          (fetch-messages)
-        (error () (switch-channel num))))))
-
 (defun fetch-messages ()
-  (map nil 'put-message (reverse (dc:get-messages (current-channel) :limit 50))))
+  (cl-tui:clear 'chat)
+  (map nil 'put-message (reverse (dc:get-messages (dcm:current-channel) :limit 50))))
 
 (defun put-message (msg)
   (let ((sender (lc:author msg)))
@@ -81,8 +64,8 @@
   (let ((key (cl-tui:read-key)))
     (case key
       (#\Newline (finish-input))
-      (#\So (switch-channel 1))
-      (#\Dle (switch-channel -1))
+      (#\So (dcm:switch-channel 1) (fetch-messages))
+      (#\Dle (dcm:switch-channel -1) (fetch-messages))
       (:key-up (cl-tui:scroll-log 'chat 1))
       (:key-down (cl-tui:scroll-log 'chat -1))
       (t (cl-tui:handle-key 'input key)))))
