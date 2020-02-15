@@ -1,0 +1,14 @@
+github cl-charms HiTECNOLOGYs/cl-charms
+github cl-tui naryl/cl-tui
+github lispcord lispcord/lispcord
+github dithcord naryl/dithcord
+github webdocket-driver naryl/websocket-driver
+github sha1 naryl/sha1
+
+ql alexandria
+ql uiop
+ql cl-containers
+ql verbose
+ql ubiquitous
+ql trivial-types
+

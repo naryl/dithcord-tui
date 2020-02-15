@@ -1,6 +1,6 @@
 
 (defsystem dithcord-tui
-  :depends-on (:alexandria ; General utilities
+  :depends-on (:alexandria :uiop ; General utilities
                :cl-containers :verbose :ubiquitous :trivial-types ; Utilities
                :cl-tui ; UI
                :dithcord :lispcord ; Discord
@@ -13,4 +13,9 @@
                (:file "tui-commands")
                (:file "module")
                (:file "main")
-               ))
+               )
+  :build-operation "program-op"
+  :build-pathname "../dithcord-tui"
+  :entry-point "dithcord-tui:start"
+  )
+

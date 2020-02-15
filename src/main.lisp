@@ -1,19 +1,20 @@
 
 (in-package dithcord-tui)
 
+#-ccl
 (v:define-pipe ()
   (v:level-filter :level :debug)
   (v:rotating-file-faucet :template "debug.log"))
 
 (setf (v:repl-categories) nil)
 
-(dithcord:define-bot dithcord-tui (tui)
-  :selfbot t)
+(dithcord:define-bot dithcord-tui (tui))
 
 (defun connectedp ()
   (not (null dc:*client*)))
 
 (defun start ()
+  (v:start v:*global-controller*)
   (ubiquitous:restore :dithcord-tui)
   (when (user-token)
     (setf (dc:token 'dithcord-tui) (user-token)))

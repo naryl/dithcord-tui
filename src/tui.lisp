@@ -53,7 +53,7 @@
 
 (defun put-message (msg)
   (let ((sender (lc:author msg)))
-    (let ((text (lispcord:render-msg msg))
+    (let ((text msg)
           (sender-name (lc:nick-or-name sender msg)))
       (when (> (length sender-name) 20)
         (setf sender-name (format nil "~A..." (subseq sender-name 0 17))))

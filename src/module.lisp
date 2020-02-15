@@ -8,8 +8,9 @@
   (cl-tui:refresh))
 
 (dc:define-handler tui :on-guild-create (guild)
-  (declare (ignore guild)) 
-  (cl-tui:refresh))
+  (cl-tui:refresh)
+  (when (eq guild (dcm:current-guild))
+    (fetch-messages)))
 
 (dc:define-handler tui :on-message-create (msg)
   (when (eq (lc:channel msg) (dcm:current-channel))

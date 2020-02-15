@@ -1,0 +1,52 @@
+("quicklisp" .
+ (:class qlot/source/dist:source-dist
+  :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "2019-12-27"))
+("cl-charms" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "HiTECNOLOGYs/cl-charms" :ref nil :branch nil :tag nil)
+  :version "github-404afcb395d32d1d7344554baf058c81"))
+("cl-tui" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "naryl/cl-tui" :ref nil :branch nil :tag nil)
+  :version "github-4ed1c0c7f8071b205fdcf2c45bbf60b4"))
+("lispcord" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "lispcord/lispcord" :ref nil :branch nil :tag nil)
+  :version "github-21d406d548f4056f0fa95151ad2c15ec"))
+("dithcord" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "naryl/dithcord" :ref nil :branch nil :tag nil)
+  :version "github-cb262340cfff5a45292e253ea648ddd0"))
+("webdocket-driver" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "naryl/websocket-driver" :ref nil :branch nil :tag nil)
+  :version "github-e278bc65303c34f2352d4588e729ac92"))
+("sha1" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "naryl/sha1" :ref nil :branch nil :tag nil)
+  :version "github-415770df115bd9a7a7d552576ee52d76"))
+("alexandria" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
+("uiop" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
+("cl-containers" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
+("verbose" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
+("ubiquitous" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
+("trivial-types" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2019-12-27"))
